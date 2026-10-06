@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GTA 6">
+<meta name="theme-color" content="#1f0636">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>GTA 6 Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* Layout: one-screen phone app. Giant day count over a sunset horizon, small h/m/s row beneath, date editor tucked at the bottom. */
+:root {
+  --bg: #1f0636;
+  --bg-2: #340a58;
+  --fg: #fff1ea;
+  --muted: #c4a6e0;
+  --hot: #ff1f8e;
+  --sun: #ff8c50;
+  --amber: #ffaa1f;
+  --blue: #5a85f2;
+  --violet: #b04fd0;
+  --line: #5a1a80;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Archivo", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  padding-inline: 20px;
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 55%;
+  background:
+    radial-gradient(circle 150px at 50% 100%, color-mix(in srgb, var(--amber) 85%, transparent), transparent 100%),
+    radial-gradient(ellipse 80% 65% at 50% 100%, color-mix(in srgb, var(--hot) 55%, transparent), transparent 75%),
+    linear-gradient(to top, color-mix(in srgb, var(--hot) 30%, transparent), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.palms {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 26vh;
+  max-height: 240px;
+  fill: #12031f;
+  pointer-events: none;
+  z-index: 1;
+}
+body::after {
+  content: "";
+  position: fixed;
+  left: 50%;
+  bottom: -90px;
+  width: min(86vw, 420px);
+  aspect-ratio: 1;
+  max-width: 100%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--amber) 0%, var(--sun) 40%, var(--hot) 100%);
+  -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 16px, transparent 16px 22px);
+  mask-image: repeating-linear-gradient(180deg, #000 0 16px, transparent 16px 22px);
+  opacity: .85;
+  pointer-events: none;
+  z-index: 0;
+}
+main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  max-width: 560px;
+  width: 100%;
+  margin-inline: auto;
+}
+.kicker {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+h1 {
+  margin: 6px 0 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(34px, 11vw, 56px);
+  line-height: .95;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.days {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.days .n {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(120px, 42vw, 220px);
+  line-height: .82;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, var(--blue) 0%, var(--violet) 28%, var(--hot) 55%, var(--sun) 82%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.days .u {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(28px, 8vw, 44px);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.sub { margin: 0; color: var(--muted); font-size: 15px; }
+.clock {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.clock > div {
+  min-width: 0;
+  background: color-mix(in srgb, var(--bg-2) 85%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.clock .v {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.clock .l {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#s { color: var(--hot); }
+.out h1 { font-size: clamp(48px, 16vw, 96px); }
+footer {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  width: 100%;
+  margin-inline: auto;
+  padding-top: 20px;
+}
+details {
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+  list-style: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+.edit { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+.edit label { font-size: 13px; color: var(--muted); flex-basis: 100%; }
+input[type="date"] {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+button {
+  font: inherit;
+  font-weight: 600;
+  color: #1a0f14;
+  background: linear-gradient(90deg, var(--amber), var(--hot));
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 14px;
+  cursor: pointer;
+}
+button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.note { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+</style>
+<style>
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+</style>
+</head>
+<body>
+
+
+<svg class="palms" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <defs>
+    <symbol id="palm" viewBox="0 0 100 160" overflow="visible">
+      <path d="M47 160 C50 112 45 72 52 40 L57 40 C53 74 57 114 57 160 Z"/>
+      <g transform="translate(54 40)">
+        <path id="frond" d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-172)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-140)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-108)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-76)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-44)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-12)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(22)"/>
+        <path d="M0 0 C18 -20 44 -22 72 -2 C46 -10 22 -7 0 0 Z" transform="rotate(-196)"/>
+      </g>
+    </symbol>
+  </defs>
+  <rect x="0" y="134" width="400" height="6"/>
+  <use href="#palm" x="-14" y="22" width="78" height="125"/>
+  <use href="#palm" x="52" y="70" width="46" height="74"/>
+  <use href="#palm" x="232" y="82" width="38" height="61"/>
+  <use href="#palm" x="296" y="12" width="84" height="134"/>
+  <use href="#palm" x="352" y="60" width="54" height="86"/>
+</svg>
+
+<main id="app">
+  <header>
+    <div class="kicker">PS5 · Xbox Series X|S</div>
+    <h1>Grand Theft Auto VI</h1>
+  </header>
+
+  <section id="live">
+    <div class="days"><span class="n" id="d">--</span><span class="u" id="du">days</span></div>
+    <p class="sub" id="sub"></p>
+  </section>
+
+  <div class="clock" id="clock">
+    <div><div class="v" id="h">--</div><div class="l">hours</div></div>
+    <div><div class="v" id="m">--</div><div class="l">minutes</div></div>
+    <div><div class="v" id="s">--</div><div class="l">seconds</div></div>
+  </div>
+</main>
+
+<footer>
+  <details>
+    <summary id="sum">Release date: Nov 19, 2026 · tap to change</summary>
+    <div class="edit">
+      <label for="date">If the date moves again, set the new one here.</label>
+      <input type="date" id="date" value="2026-11-19">
+      <button id="save" type="button">Save</button>
+      <button id="reset" type="button" class="ghost">Reset</button>
+    </div>
+    <p class="note">Counts down to midnight on that date in your time zone. Last confirmed date: Nov 19, 2026.</p>
+  </details>
+</footer>
+
+<script>
+(function () {
+  var DEFAULT = "2026-11-19";
+  var KEY = "gta6-target";
+  var $ = function (id) { return document.getElementById(id); };
+
+  function load() {
+    try { return localStorage.getItem(KEY) || DEFAULT; } catch (e) { return DEFAULT; }
+  }
+  function store(v) {
+    try { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch (e) {}
+  }
+  var dateStr = load();
+
+  function parse(s) {
+    var p = s.split("-");
+    return new Date(+p[0], +p[1] - 1, +p[2], 0, 0, 0);
+  }
+  function pretty(s) {
+    return parse(s).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  }
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function plural(n, w) { return n + " " + w + (n === 1 ? "" : "s"); }
+
+  function tick() {
+    var target = parse(dateStr);
+    var diff = target - new Date();
+    if (diff <= 0) {
+      document.getElementById("app").classList.add("out");
+      $("live").innerHTML = "";
+      $("clock").hidden = true;
+      document.querySelector("h1").textContent = "It's out. Go play.";
+      return;
+    }
+    var totalSec = Math.floor(diff / 1000);
+    var days = Math.floor(totalSec / 86400);
+    var h = Math.floor((totalSec % 86400) / 3600);
+    var m = Math.floor((totalSec % 3600) / 60);
+    var s = totalSec % 60;
+    $("d").textContent = days;
+    $("du").textContent = days === 1 ? "day" : "days";
+    $("h").textContent = pad(h);
+    $("m").textContent = pad(m);
+    $("s").textContent = pad(s);
+    var w = Math.floor(days / 7), r = days % 7;
+    $("sub").textContent = days >= 7
+      ? "That's " + plural(w, "week") + (r ? " and " + plural(r, "day") : "") + " to go."
+      : "Under a week left.";
+  }
+
+  function refreshLabel() {
+    $("sum").textContent = "Release date: " + pretty(dateStr) + " · tap to change";
+    $("date").value = dateStr;
+  }
+
+  $("save").addEventListener("click", function () {
+    var v = $("date").value;
+    if (!v) return;
+    dateStr = v;
+    store(v);
+    refreshLabel();
+    tick();
+  });
+  $("reset").addEventListener("click", function () {
+    dateStr = DEFAULT;
+    store(null);
+    refreshLabel();
+    tick();
+  });
+
+  refreshLabel();
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+</body>
+</html>
