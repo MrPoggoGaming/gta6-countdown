@@ -1,0 +1,99 @@
+# GTA 6 Countdown
+
+A simple countdown web app for the release of Grand Theft Auto VI. It shows the days, hours, minutes and seconds left, and it opens full screen when you add it to your phone's home screen.
+
+**Live app:** https://mrpoggogaming.github.io/gta6-countdown/
+
+> Fan project. Not affiliated with or endorsed by Rockstar Games or Take-Two Interactive.
+
+## About
+
+The wait for GTA 6 has been long, and release dates have moved before. This app gives you one clean screen that answers a single question: how long is left? There is nothing to sign up for, no ads, and no tracking. You open it, you see the number, you close it.
+
+It is built as a Progressive Web App (PWA), which means it is a normal web page that behaves like an app once you add it to your home screen. It opens full screen with no browser bar, and it has its own icon and name. It is free to run and doesn't need an app store account.
+
+The look is an original neon-sunset design: a purple-to-pink-to-orange palette, a striped sun rising from the bottom of the screen, and a skyline of palm tree silhouettes. All of the artwork is drawn in code, so the whole app is a single small HTML file.
+
+## Features
+
+- **Live countdown** to the release date, updating every second, with days, hours, minutes and seconds.
+- **Weeks view.** Under the day count, the app also says how many weeks and days are left.
+- **Editable release date.** If the date moves again, change it in the app and it remembers your choice on that device.
+- **Full-screen app mode** on iPhone and Android once added to the home screen.
+- **Phone-first layout** that fits small screens and large ones.
+- **No account, no ads, no tracking.** The app collects nothing. The only thing it stores is the release date you choose, and that stays in your own browser.
+- **Lightweight.** One HTML file, two icons and a manifest. There are no frameworks and no build step.
+- **Release-day message.** When the date arrives, the countdown is replaced with a short message.
+
+## How it works
+
+The page compares the current time with midnight on the release date in your own time zone and updates the display once per second. The release date defaults to November 19, 2026, which was the most recent date I could confirm when the app was built. Release dates can change, so check Rockstar's official channels for the current one.
+
+If you change the date in the app, it is saved in your browser's local storage. That means it stays on that device and browser, and clearing your browser data resets it to the default.
+
+## Install on iPhone
+
+You need Safari. Other browsers can't add web apps to the home screen on iPhone.
+
+1. Open https://mrpoggogaming.github.io/gta6-countdown/ in **Safari**.
+2. Tap the **Share** button (the square with an arrow pointing up).
+3. Scroll down and tap **Add to Home Screen**.
+4. Edit the name if you want, then tap **Add**.
+5. Open the app from the new icon on your home screen.
+
+## Install on Android
+
+1. Open the link in **Chrome**.
+2. Tap the **⋮** menu in the top right.
+3. Tap **Add to Home screen** (or **Install app**).
+4. Tap **Add** or **Install**.
+
+## Change the release date
+
+1. Tap the bar at the bottom that says "Release date".
+2. Pick the new date and tap **Save**.
+3. Tap **Reset** to go back to the default date.
+
+## Update the app (for the repo owner)
+
+- Upload new versions of `index.html` through **Add file**, then **Upload files**, then **Commit changes**. The site updates in one to two minutes.
+- To change the home-screen icon, replace `icon-180.png` and `icon-512.png` with files of the same name.
+- After updating the icon, remove the old icon from your home screen and add the app again. Phones keep a saved copy of the old one.
+- GitHub Pages must stay on: **Settings**, then **Pages**, then **Deploy from a branch**, then **main** and **/ (root)**. The repo has to be public on a free GitHub account.
+
+## Limitations
+
+- It is a web app, not a native app, so it needs an internet connection to load.
+- A web app can't have a close button. On iPhone, swipe up from the bottom edge to leave it.
+- It doesn't send notifications or show a widget on the lock screen or home screen.
+- The release date is not fetched automatically. If it changes, you need to update it by hand.
+
+## Ideas for later
+
+- A home-screen or lock-screen widget (this would need a native app)
+- Alerts when the release date changes
+- Offline support so it opens without a connection
+- A choice of themes
+
+## Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| The page shows a 404 | Check that Pages is turned on in Settings, then Pages. Make sure the address ends with `/gta6-countdown/`. |
+| The icon or page looks old | Close the app fully and open it again. If it still looks old, remove it from the home screen and add it again. |
+| There is no close button | Web apps can't have one. On iPhone, swipe up from the bottom edge to leave the app. |
+| The app doesn't load without internet | It needs a connection to load. It is a web app, not a native one. |
+| The date reset itself | Clearing browser data removes your saved date. Set it again in the app. |
+
+## Files
+
+| File | What it does |
+| --- | --- |
+| `index.html` | The whole app: page, styles, artwork and countdown code |
+| `manifest.webmanifest` | App name and colors for the home screen |
+| `icon-180.png` | Home-screen icon for iPhone |
+| `icon-512.png` | Larger icon for Android and other devices |
+
+## Disclaimer
+
+This is an unofficial fan project made for fun. Grand Theft Auto and related names are trademarks of their respective owners. This project contains no Rockstar Games or Take-Two Interactive artwork, logos or code. The design and artwork in this repository are original.
